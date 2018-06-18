@@ -122,7 +122,7 @@ class ROSPlanKbUpdaterOrderInfo {
 	{
 		svc_update_knowledge_ =
 			n.serviceClient<rosplan_knowledge_msgs::KnowledgeUpdateServiceArray>
-			("kcl_rosplan/update_knowledge_base_array", /* persistent */ true);
+			("rosplan_knowledge_base/update_array", /* persistent */ true);
 
 		ROS_INFO("[RPKB-OrdInfo] Waiting for ROSPlan service update_knowledge_base");
 		svc_update_knowledge_.waitForExistence();
@@ -133,8 +133,8 @@ class ROSPlanKbUpdaterOrderInfo {
 	{
 		svc_current_knowledge_ =
 			n.serviceClient<rosplan_knowledge_msgs::GetAttributeService>
-			("kcl_rosplan/get_current_knowledge", /* persistent */ true);
-		ROS_INFO("[RPKB-OrdInfo] Waiting for ROSPlan service get_current_knowledge");
+			("rosplan_knowledge_base/state/propositions", /* persistent */ true);
+		ROS_INFO("[RPKB-OrdInfo] Waiting for ROSPlan service rosplan_knowledge_base/state/propositions");
 		svc_current_knowledge_.waitForExistence();
 	}
 
@@ -143,7 +143,7 @@ class ROSPlanKbUpdaterOrderInfo {
 	{
 		svc_current_instances_ =
 			n.serviceClient<rosplan_knowledge_msgs::GetInstanceService>
-			("kcl_rosplan/get_current_instances", /* persistent */ true);
+			("rosplan_knowledge_base/state/instances", /* persistent */ true);
 		ROS_INFO("[RPKB-OrdInfo] Waiting for ROSPlan service get_current_instances");
 		svc_current_instances_.waitForExistence();
 	}
@@ -152,10 +152,10 @@ class ROSPlanKbUpdaterOrderInfo {
 	get_predicates()
 	{
 		// fetch and store predicate details
-		ros::service::waitForService("kcl_rosplan/get_domain_predicate_details",ros::Duration(20));
+		ros::service::waitForService("rosplan_knowledge_base/domain/predicate_details",ros::Duration(20));
 		ros::ServiceClient pred_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainPredicateDetailsService>
-			  ("kcl_rosplan/get_domain_predicate_details", /* persistent */ true);
+			  ("rosplan_knowledge_base/domain/predicate_details", /* persistent */ true);
 		if (! pred_client.waitForExistence(ros::Duration(20))) {
 			ROS_ERROR("[RPKB-OrdInfo] No service provider for get_domain_predicate_details");
 			return;
@@ -182,12 +182,12 @@ class ROSPlanKbUpdaterOrderInfo {
 	get_functions()
 	{
 		// fetch and store predicate details
-		ros::service::waitForService("kcl_rosplan/get_domain_functions",ros::Duration(20));
+		ros::service::waitForService("rosplan_knowledge_base/domain/functions",ros::Duration(20));
 		ros::ServiceClient func_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainAttributeService>
-			  ("kcl_rosplan/get_domain_functions", /* persistent */ true);
+			  ("rosplan_knowledge_base/domain/functions", /* persistent */ true);
 		if (! func_client.waitForExistence(ros::Duration(20))) {
-			ROS_ERROR("[RPKB-OrdInfo] No service provider for get_domain_functions");
+			ROS_ERROR("[RPKB-OrdInfo] No service provider for rosplan_knowledge_base/domain/functions");
 			return;
 		}	
 

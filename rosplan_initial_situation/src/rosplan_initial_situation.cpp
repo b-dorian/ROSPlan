@@ -83,9 +83,9 @@ public:
 		ROS_INFO("[RP-IniSit] Waiting for MongoDB (actually ROSPlan KB)");
 		ros::service::waitForService("/message_store/delete", -1);
 
-		ROS_INFO("[RP-IniSit] Waiting for planning system to become ready");
-		sub_ps_state_ = n.subscribe("kcl_rosplan/system_state", 10,
-		                            &ROSPlanInitialSituation::ps_state_cb, this);
+	//	ROS_INFO("[RP-IniSit] Waiting for planning system to become ready");
+	//	sub_ps_state_ = n.subscribe("kcl_rosplan/system_state", 10,
+	//	                            &ROSPlanInitialSituation::ps_state_cb, this);
 	}
 
 	void
@@ -93,7 +93,7 @@ public:
 	{
 		svc_update_knowledge_ =
 			n.serviceClient<rosplan_knowledge_msgs::KnowledgeUpdateServiceArray>
-			("kcl_rosplan/update_knowledge_base_array", /* persistent */ true);
+			("rosplan_knowledge_base/update_array", /* persistent */ true);
 
 		ROS_INFO("[RP-IniSit] Waiting for ROSPlan service update_knowledge_base");
 		svc_update_knowledge_.waitForExistence();
@@ -215,7 +215,7 @@ public:
 
 		ros::ServiceClient pred_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainPredicateDetailsService>
-			  ("kcl_rosplan/get_domain_predicate_details", /* persistent */ true);
+			  ("rosplan_knowledge_base/domain/predicates", /* persistent */ true);
 		if (! pred_client.waitForExistence(ros::Duration(20))) {
 			ROS_ERROR("[RP-IniSit] No service provider for get_domain_predicate_details");
 			return;
@@ -260,7 +260,7 @@ public:
 		}
 
 		ros::ServiceClient clear_client =
-			n.serviceClient<std_srvs::Empty>("kcl_rosplan/clear_knowledge_base");
+			n.serviceClient<std_srvs::Empty>("rosplan_knowledge_base/clear");
 		if (! clear_client.waitForExistence(ros::Duration(20))) {
 			ROS_WARN("[RP-IniSit] No service provider for clear_knowledge_base, cannot clear");
 			return;

@@ -94,7 +94,7 @@ class ROSPlanKbUpdaterNavGraph {
 	{
 		svc_update_knowledge_ =
 			n.serviceClient<rosplan_knowledge_msgs::KnowledgeUpdateServiceArray>
-			("kcl_rosplan/update_knowledge_base_array", /* persistent */ true);
+			("rosplan_knowledge_base/domain/update_array", /* persistent */ true);
 
 		ROS_INFO("Waiting for ROSPlan service update_knowledge_base");
 		svc_update_knowledge_.waitForExistence();
@@ -105,8 +105,8 @@ class ROSPlanKbUpdaterNavGraph {
 	{
 		svc_current_knowledge_ =
 			n.serviceClient<rosplan_knowledge_msgs::GetAttributeService>
-			("kcl_rosplan/get_current_knowledge", /* persistent */ true);
-		ROS_INFO("Waiting for ROSPlan service get_current_knowledge");
+			("rosplan_knowledge_base/state/propositions", /* persistent */ true);
+		ROS_INFO("Waiting for ROSPlan service rosplan_knowledge_base/state/propositions");
 		svc_current_knowledge_.waitForExistence();
 	}
 
@@ -115,8 +115,8 @@ class ROSPlanKbUpdaterNavGraph {
 	{
 		svc_current_instances_ =
 			n.serviceClient<rosplan_knowledge_msgs::GetInstanceService>
-			("kcl_rosplan/get_current_instances", /* persistent */ true);
-		ROS_INFO("Waiting for ROSPlan service get_current_instances");
+			("rosplan_knowledge_base/state/instances", /* persistent */ true);
+		ROS_INFO("Waiting for ROSPlan service state/instances");
 		svc_current_instances_.waitForExistence();
 	}
 
@@ -133,12 +133,12 @@ class ROSPlanKbUpdaterNavGraph {
 	void
 	get_functions()
 	{
-		ros::service::waitForService("kcl_rosplan/get_domain_functions",ros::Duration(20));
+		ros::service::waitForService("rosplan_knowledge_base/domain/functions",ros::Duration(20));
 		ros::ServiceClient func_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainAttributeService>
-			  ("kcl_rosplan/get_domain_functions", /* persistent */ true);
+			  ("rosplan_knowledge_base/domain/functions", /* persistent */ true);
 		if (! func_client.waitForExistence(ros::Duration(20))) {
-			ROS_ERROR("No service provider for get_domain_functions");
+			ROS_ERROR("No service provider for rosplan_knowledge_base/domain/functions");
 			return;
 		}	
 

@@ -139,7 +139,7 @@ class ROSPlanInterfaceRCLLRefBox {
 	{
 		svc_update_knowledge_ =
 			n.serviceClient<rosplan_knowledge_msgs::KnowledgeUpdateServiceArray>
-			("kcl_rosplan/update_knowledge_base_array", /* persistent */ true);
+			("rosplan_knowledge_base/domain/update_array", /* persistent */ true);
 
 		ROS_INFO("[RPI-RefBox] Waiting for ROSPlan service update_knowledge_base");
 		svc_update_knowledge_.waitForExistence();
@@ -161,10 +161,10 @@ class ROSPlanInterfaceRCLLRefBox {
 	{
 		ros::ServiceClient opdetail_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainOperatorDetailsService>
-			  ("kcl_rosplan/get_domain_operator_details");
+			  ("rosplan_knowledge_base/domain/operator_details");
 		//ROS_INFO("[RPI-RefBox] Waiting for ROSPlan service get_domain_operator_details");
 		if (! opdetail_client.waitForExistence(ros::Duration(10))) {
-			ROS_ERROR("[RPI-RefBox] Could not discover get_domain_operator_details service "
+			ROS_ERROR("[RPI-RefBox] Could not discover rosplan_knowledge_base/domain/operator_details service "
 			          "(for action spec '%s')", name.c_str());
 			return;
 		}
@@ -191,7 +191,7 @@ class ROSPlanInterfaceRCLLRefBox {
 	{
 		ros::ServiceClient oplist_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainOperatorService>
-			  ("kcl_rosplan/get_domain_operators");
+			  ("rosplan_knowledge_base/domain/operators");
 		if (! oplist_client.waitForExistence(ros::Duration(120))) {
 			ROS_ERROR("[RPI-RefBox] Could not retrieve action specs from ROSPlan");
 			return;
@@ -242,10 +242,10 @@ class ROSPlanInterfaceRCLLRefBox {
 		}
 
 		// fetch and store predicate details
-		ros::service::waitForService("kcl_rosplan/get_domain_predicate_details",ros::Duration(20));
+		ros::service::waitForService("rosplan_knowledge_base/domain/predicate_details",ros::Duration(20));
 		ros::ServiceClient pred_client =
 			n.serviceClient<rosplan_knowledge_msgs::GetDomainPredicateDetailsService>
-			  ("kcl_rosplan/get_domain_predicate_details", /* persistent */ true);
+			  ("rosplan_knowledge_base/domain/predicate_details", /* persistent */ true);
 		if (! pred_client.waitForExistence(ros::Duration(20))) {
 			ROS_ERROR("[RPI-RefBox] No service provider for get_domain_predicate_details");
 			return;
