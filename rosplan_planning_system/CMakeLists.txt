@@ -46,6 +46,7 @@ find_package(GLUT REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 
 ## Declare cpp executables
+add_executable(exportInterface src/ExportInterface/ExportInterface.cpp src/ExportInterface/ExportGenerator.cpp)
 add_executable(problemInterface src/ProblemGeneration/ProblemInterface.cpp src/ProblemGeneration/PDDLProblemGenerator.cpp
                                                                            src/ProblemGeneration/ProblemGenerator.cpp
                                                                            src/ProblemGeneration/RDDLProblemGenerator.cpp
@@ -67,6 +68,7 @@ add_executable(pddl_esterel_plan_dispatcher src/PlanDispatch/EsterelPlanDispatch
 add_executable(simulatedAction src/ActionInterface/RPSimulatedActionInterface.cpp src/ActionInterface/RPActionInterface.cpp)
 
 ## Add dependencies
+add_dependencies(exportInterface ${catkin_EXPORTED_TARGETS})
 add_dependencies(problemInterface ${catkin_EXPORTED_TARGETS})
 add_dependencies(popf_planner_interface ${catkin_EXPORTED_TARGETS})
 add_dependencies(ff_planner_interface ${catkin_EXPORTED_TARGETS})
@@ -85,6 +87,7 @@ add_dependencies(pddl_esterel_plan_dispatcher ${catkin_EXPORTED_TARGETS})
 add_dependencies(simulatedAction ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries against which to link a library or executable target
+target_link_libraries(exportInterface ${catkin_LIBRARIES})
 target_link_libraries(problemInterface ${catkin_LIBRARIES})
 target_link_libraries(popf_planner_interface ${catkin_LIBRARIES})
 target_link_libraries(ff_planner_interface ${catkin_LIBRARIES})
