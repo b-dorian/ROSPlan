@@ -39,7 +39,7 @@ namespace KCL_rosplan {
 			else if (planning_lang == "rddl") pg_type = KCL_rosplan::ProblemGeneratorFactory::RDDL;
             else if (planning_lang == "csv") pg_type = KCL_rosplan::ProblemGeneratorFactory::CSV;
 			else {
-				ROS_WARN("KCL: (%s) Unexpected planning language %s. Please specify the planning language as either \"PDDL\" or \"RDDL\".",
+				ROS_WARN("KCL: (%s) Unexpected planning language %s. Please specify the planning language as either \"PDDL\", \"RDDL\", or \"CSV\" if you are exporting to a prediction graph.",
 						  ros::this_node::getName().c_str(), planning_lang.c_str());
 			}
 		} // If problem path is specified, it'll overwrite the setting from the planning_lang parameter.
@@ -49,7 +49,7 @@ namespace KCL_rosplan {
             else if (extension == ".rddl") pg_type = KCL_rosplan::ProblemGeneratorFactory::RDDL;
             else if (extension == ".csv") pg_type = KCL_rosplan::ProblemGeneratorFactory::CSV;
             else {
-                ROS_ERROR("KCL: (%s) Unexpected problem file extension %s. Please provide a problem file written in PDDL (.pddl extension) or RDDL (.rddl extension).",
+                ROS_ERROR("KCL: (%s) Unexpected problem file extension %s. Please provide a problem file written in PDDL (.pddl extension) or RDDL (.rddl extension), , or CSV if you are exporting to a prediction graph.\".",
                           ros::this_node::getName().c_str(), extension.c_str());
                 ros::shutdown();
             }
