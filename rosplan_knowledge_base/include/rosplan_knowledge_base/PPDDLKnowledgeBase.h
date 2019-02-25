@@ -50,6 +50,9 @@ namespace KCL_rosplan {
         /* add the initial state to the knowledge base */
         void addInitialState() override;
 
+        /* import state from file*/
+        bool importState(rosplan_knowledge_msgs::ImportStateFromFileService::Request &req, rosplan_knowledge_msgs::ImportStateFromFileService::Response &res);
+
         /* service methods for fetching the domain details */
         bool getDomainName(rosplan_knowledge_msgs::GetDomainNameService::Request  &req, rosplan_knowledge_msgs::GetDomainNameService::Response &res) override;
         bool getTypes(rosplan_knowledge_msgs::GetDomainTypeService::Request  &req, rosplan_knowledge_msgs::GetDomainTypeService::Response &res) override;

@@ -148,18 +148,40 @@ namespace KCL_rosplan {
 	/* add initial state to knowledge base */
 	/*-------------------------------------*/
 
-	/* get the initial state from the domain and problem files */
-	void PDDLKnowledgeBase::addInitialState() {
-		VALVisitorProblem problem_visitor(domain_parser.domain, problem_parser.problem);
-		model_instances = problem_visitor.returnInstances();
-		model_facts = problem_visitor.returnFacts();
-		model_functions = problem_visitor.returnFunctions();
-		model_goals = problem_visitor.returnGoals();
-		model_timed_initial_literals = problem_visitor.returnTimedKnowledge();
-		if (problem_parser.problem->metric) {
-			model_metric = problem_visitor.returnMetric();
-		}
+	/* import state from file */
+	bool PDDLKnowledgeBase::importState(rosplan_knowledge_msgs::ImportStateFromFileService::Request &req, rosplan_knowledge_msgs::ImportStateFromFileService::Response &res) {
+
+        this->parseDomain(req.domain_path, req.problem_path);
+        res.state_imported = true;
+
+        if(req.domain_string_response) {
+
+            std::ifstream domainIn(req.domain_path.c_str());
+            if(domainIn) res.domain_string = std::string(std::istreambuf_iterator<char>(domainIn), std::istreambuf_iterator<char>());
+        }
+
+        if(req.problem_string_response) {
+
+            std::ifstream problemIn(req.problem_path.c_str());
+            if(problemIn) res.state_string = std::string(std::istreambuf_iterator<char>(problemIn), std::istreambuf_iterator<char>());
+        }
+
+        return true;
 	}
+
+
+    /* get the initial state from the domain and problem files */
+    void PDDLKnowledgeBase::addInitialState() {
+        VALVisitorProblem problem_visitor(domain_parser.domain, problem_parser.problem);
+        model_instances = problem_visitor.returnInstances();
+        model_facts = problem_visitor.returnFacts();
+        model_functions = problem_visitor.returnFunctions();
+        model_goals = problem_visitor.returnGoals();
+        model_timed_initial_literals = problem_visitor.returnTimedKnowledge();
+        if (problem_parser.problem->metric) {
+            model_metric = problem_visitor.returnMetric();
+        }
+    }
 
 	void PDDLKnowledgeBase::parseDomain(const std::string &domain_file_path, const std::string &problem_file_path) {
 		std::ifstream file_check;
@@ -183,6 +205,8 @@ namespace KCL_rosplan {
 				ros::shutdown();
 			}
 		}
+
+
 
 		// parse problem and add initial state
 		if(problem_file_path != "") {

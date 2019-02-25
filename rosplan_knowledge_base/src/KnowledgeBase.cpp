@@ -301,7 +301,11 @@ namespace KCL_rosplan {
         std::vector<rosplan_knowledge_msgs::KnowledgeItem>::iterator pit;
         for(pit=model_facts.begin(); pit!=model_facts.end(); ) {
             if(KnowledgeComparitor::containsKnowledge(msg, *pit)) {
-                ROS_INFO("KCL: (%s) Removing Fact (%s,%i)", ros::this_node::getName().c_str(), msg.attribute_name.c_str(), msg.is_negative);
+                std::string param_str;
+                for (size_t i = 0; i < msg.values.size(); ++i) {
+                    param_str += " " + msg.values[i].value;
+                }
+                ROS_INFO("KCL: (%s) Removing Fact (%s%s,%i)", ros::this_node::getName().c_str(), msg.attribute_name.c_str(), param_str.c_str(), msg.is_negative);
                 pit = model_facts.erase(pit);
             } else {
                 pit++;
@@ -550,6 +554,7 @@ namespace KCL_rosplan {
 		updateServer1 = _nh.advertiseService("update",						&KCL_rosplan::KnowledgeBase::updateKnowledge, this);
 		updateServer2 = _nh.advertiseService("update_array",				&KCL_rosplan::KnowledgeBase::updateKnowledgeArray, this);
 		updateServer3 = _nh.advertiseService("update_constraints_oneof",	&KCL_rosplan::KnowledgeBase::updateKnowledgeConstraintsOneOf, this);
+		updateServer4 = _nh.advertiseService("import_state", &KCL_rosplan::KnowledgeBase::importState, this);
 
 		// fetch knowledge
 		stateServer1 = _nh.advertiseService("state/instances",			&KCL_rosplan::KnowledgeBase::getInstances, this);

@@ -25,6 +25,8 @@
 #include "rosplan_knowledge_msgs/GetMetricService.h"
 #include "rosplan_knowledge_msgs/KnowledgeItem.h"
 
+#include "rosplan_knowledge_msgs/ImportStateFromFileService.h"
+
 #include "KnowledgeBase.h"
 #include "KnowledgeComparitor.h"
 #include "PDDLDomainParser.h"
@@ -53,7 +55,10 @@ namespace KCL_rosplan {
         /* add the initial state to the knowledge base */
         void addInitialState() override;
 
-		/* service methods for fetching the domain details */
+		/* import state from file*/
+		bool importState(rosplan_knowledge_msgs::ImportStateFromFileService::Request &req, rosplan_knowledge_msgs::ImportStateFromFileService::Response &res);
+
+            /* service methods for fetching the domain details */
 		bool getDomainName(rosplan_knowledge_msgs::GetDomainNameService::Request  &req, rosplan_knowledge_msgs::GetDomainNameService::Response &res) override;
 		bool getTypes(rosplan_knowledge_msgs::GetDomainTypeService::Request  &req, rosplan_knowledge_msgs::GetDomainTypeService::Response &res) override;
 		bool getPredicates(rosplan_knowledge_msgs::GetDomainAttributeService::Request  &req, rosplan_knowledge_msgs::GetDomainAttributeService::Response &res) override;

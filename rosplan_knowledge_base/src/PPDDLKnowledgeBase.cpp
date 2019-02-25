@@ -254,4 +254,11 @@ namespace KCL_rosplan {
 
 
     }
+
+
+    /* import state from file - not implemented */
+    bool PPDDLKnowledgeBase::importState(rosplan_knowledge_msgs::ImportStateFromFileService::Request &req, rosplan_knowledge_msgs::ImportStateFromFileService::Response &res) {
+        return false;
+    }
+
 }
