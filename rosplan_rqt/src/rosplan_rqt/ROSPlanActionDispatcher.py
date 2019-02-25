@@ -38,9 +38,9 @@ class ActionDispatchWidget(QWidget):
         self.setObjectName('ROSPlanActionDispatcherUI')
 
         # populate combo box
-        rospy.wait_for_service('/kcl_rosplan/get_domain_operators')
+        rospy.wait_for_service('/rosplan_knowledge_base/domain/operators')
         try:
-            operator_client = rospy.ServiceProxy('/kcl_rosplan/get_domain_operators', GetDomainOperatorService)
+            operator_client = rospy.ServiceProxy('/rosplan_knowledge_base/domain/operators', GetDomainOperatorService)
             resp = operator_client()
             for op in resp.operators:
                 self.operatorNameComboBox.addItem(op.name)
@@ -61,13 +61,13 @@ class ActionDispatchWidget(QWidget):
 
         self._plugin = plugin
 
-        rospy.Subscriber("/kcl_rosplan/action_feedback", ActionFeedback, self.action_feedback_callback)
+        rospy.Subscriber("/tactical_plan_dispatch/action_feedback", ActionFeedback, self.action_feedback_callback)
 
     """
     called when the dispatch button is clicked; sends action
     """
     def _handle_dispatch_clicked(self, checked):
-        pub = rospy.Publisher('/kcl_rosplan/action_dispatch', ActionDispatch, queue_size=10)
+        pub = rospy.Publisher('/tactical_plan_dispatch/action_dispatch', ActionDispatch, queue_size=10)
         self.statusLabel.setText("")
         msg = ActionDispatch()
         msg.name = self.operatorNameComboBox.currentText()
@@ -97,7 +97,7 @@ class ActionDispatchWidget(QWidget):
         for i in range(len(self._parameter_label_list[operatorName])):
             # fetch types for combo box
             cmb = QComboBox()
-            instance_client = rospy.ServiceProxy('/kcl_rosplan/get_current_instances', GetInstanceService)
+            instance_client = rospy.ServiceProxy('/rosplan_knowledge_base/state/instances', GetInstanceService)
             resp = instance_client(self._parameter_type_list[operatorName][i])
             for instancename in resp.instances:
                 cmb.addItem(instancename,instancename)
