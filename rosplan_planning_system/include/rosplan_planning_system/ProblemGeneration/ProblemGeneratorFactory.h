@@ -8,7 +8,6 @@
 #include "ProblemGenerator.h"
 #include "PDDLProblemGenerator.h"
 #include "RDDLProblemGenerator.h"
-#include "CSVGenerator.h"
 
 namespace KCL_rosplan {
     typedef std::unique_ptr<ProblemGenerator> ProblemGeneratorPtr;

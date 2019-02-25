@@ -47,8 +47,8 @@ find_package(GLUT REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 
 ## Declare cpp executables
-add_executable(problemInterface src/ProblemGeneration/ProblemInterface.cpp src/ProblemGeneration/CSVGenerator.cpp
-                                                                           src/ProblemGeneration/PDDLProblemGenerator.cpp
+add_executable(problemInterface src/ProblemGeneration/ProblemInterface.cpp
+        src/ProblemGeneration/PDDLProblemGenerator.cpp
                                                                            src/ProblemGeneration/ProblemGenerator.cpp
                                                                            src/ProblemGeneration/RDDLProblemGenerator.cpp
                                                                            src/ProblemGeneration/ProblemGeneratorFactory.cpp)

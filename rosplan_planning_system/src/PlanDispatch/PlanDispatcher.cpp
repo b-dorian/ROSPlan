@@ -225,8 +225,14 @@ namespace KCL_rosplan {
 
             if(!positiveQuerySrv.response.all_true) {
                 std::vector<rosplan_knowledge_msgs::KnowledgeItem>::iterator kit;
-                for(kit=positiveQuerySrv.response.false_knowledge.begin(); kit != positiveQuerySrv.response.false_knowledge.end(); kit++)
-                    ROS_INFO("KCL: (%s) Precondition not achieved: %s", ros::this_node::getName().c_str(), kit->attribute_name.c_str());
+                for(kit=positiveQuerySrv.response.false_knowledge.begin(); kit != positiveQuerySrv.response.false_knowledge.end(); kit++) {
+                    std::string value_string;
+                    for (size_t i = 0; i < kit->values.size(); ++i) {
+                        value_string += " " + kit->values[i].value;
+                    }
+                    ROS_INFO("KCL: (%s) Precondition not achieved: %s%s", ros::this_node::getName().c_str(), kit->attribute_name.c_str(), value_string.c_str());
+                }
+
             }
             return positiveQuerySrv.response.all_true && !neg_preconditions;
 
